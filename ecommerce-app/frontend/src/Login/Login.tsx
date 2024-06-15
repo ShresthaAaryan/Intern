@@ -1,17 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Login.css';
+import axios from "axios";
+import '../App.css';
 import { Button } from '../stories/Button';
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     const handleSignUpNavigation = () => {
         navigate("/signup");
     };
 
+    const submit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        
+        try {
+            const response = await axios.post("http://localhost:8000/login", {
+                email,
+                password,
+            });
+
+            if (response.data === "exist") {
+                navigate("/home");
+            } else {
+                setError("Invalid email or password");
+            }
+        } catch (error) {
+            console.error(error);
+            setError("An error occurred during login. Please try again.");
+        }
+    };
+
     return (
-        <form className="form">
+        <form className="form" onSubmit={submit}>
             <div className="flex-column">
                 <label>Email </label>
             </div>
@@ -27,6 +51,7 @@ const Login: React.FC = () => {
                     type="email" 
                     name="email" 
                     required 
+                    onChange={(e)=>{setEmail(e.target.value)}}
                 />
             </div>
             
@@ -44,11 +69,12 @@ const Login: React.FC = () => {
                     type="password" 
                     name="password" 
                     required 
+                    onChange={(e)=>{setPassword(e.target.value)}}
                 />
             </div>
+            {error && <div className="error">{error}</div>}
             <Button
-                label="Sign Up"
-                onClick={() => {}}
+                label="Sign In"
                 primary
                 className="button-submit"
             />

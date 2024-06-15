@@ -2,9 +2,9 @@ import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-import './App.css'
 import Login from './Login/Login'
-import Signup from './Signup/Signup'
+import Signup from './Signup/Signup';
+import Home from './home';
 
 function App() {
   return (
@@ -13,6 +13,7 @@ function App() {
         <Route path="/" element={<Navigate replace to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path='/home' element={<Home/>} />
       </Routes>
     </Router>
   )
