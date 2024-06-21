@@ -20,25 +20,25 @@ app.get("/", (req, res) => {
 
 // Login route
 app.post("/login", async (req, res) => {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    try {
-        const user = await collection.findOne({ email, password });
+  try {
+      const user = await collection.findOne({ email, password });
 
-        if (user) {
-            const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET);
-            res.json({ token });
-        } else {
-            res.json("not exist");
-        }
-    } catch (e) {
-        console.error(e);
-        res.status(500).json("Internal server error");
-    }
+      if (user) {
+          const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET);
+          res.json({ token, userId: user._id });  // Include userId in the response
+      } else {
+          res.json("not exist");
+      }
+  } catch (e) {
+      console.error(e);
+      res.status(500).json("Internal server error");
+  }
 });
 
 app.post("/signup", async (req, res) => {
-    const { email, password } = req.body;
+     const { email, password } = req.body;
 
     try {
         const userExists = await collection.findOne({ email });
@@ -122,9 +122,32 @@ app.get('/rentals/:id', authenticateJWT, async (req, res) => {
       res.status(500).json('Internal server error');
     }
   });
-  
-  // Existing routes
-  
+
+// Update user profile route
+app.put("/user/:userId", authenticateJWT, async (req, res) => {
+  const userId = req.params.userId;
+  const { email, password } = req.body;
+
+  try {
+    // Find user by userId and update
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { email, password }, // Update email and password fields
+      { new: true } // Return updated user object
+    );
+
+    if (updatedUser) {
+      res.json({ message: "User profile updated successfully", user: updatedUser });
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
   // Start server
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

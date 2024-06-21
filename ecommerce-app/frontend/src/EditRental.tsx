@@ -91,7 +91,87 @@ const EditRental: React.FC = () => {
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-      {/* Form fields for editing rental */}
+      <div className="flex-column">
+        <label>Name</label>
+
+      </div>
+      <div className="inputForm">
+        <input
+          type="text"
+          name="name"
+          value={rental.name}
+          onChange={handleChange}
+          className="input" 
+          required
+        />
+      </div>
+      <div className="flex-column">
+        <label>Type</label>
+      </div>
+      <div className="inputForm">
+        <select name="type" value={rental.type} onChange={handleChange} className="input"  required>
+          <option value="">Select Type</option>
+          <option value="hotel">Hotel</option>
+          <option value="apartment">Apartment</option>
+          <option value="house">House</option>
+        </select>
+      </div>
+      <div className="flex-column">
+        <label>Address</label>
+
+      </div>
+      <div className="inputForm">
+        <input
+          type="text"
+          name="address"
+          value={rental.address}
+          onChange={handleChange}
+          className="input" 
+          required
+        />
+      </div>
+      <div className="flex-column">
+        <label>Availability</label>
+
+      </div>
+      <div className="inputForm">
+        <input
+          type="checkbox"
+          name="availability"
+          checked={rental.availability}
+          onChange={handleAvailabilityChange}
+          className="input" 
+        />
+      </div>
+      <div className="flex-column">
+        <label>Price</label>
+
+      </div>
+      <div className="inputForm">
+        <input
+          type="number"
+          name="price"
+          value={rental.price}
+          onChange={handleChange}
+          className="input" 
+          required
+        />
+      </div>
+      <div className="flex-column">
+        <label>Description</label>
+
+      </div>
+      <div className="inputForm">
+        <textarea
+          name="description"
+          value={rental.description}
+          onChange={handleChange}
+          className="input" 
+          required
+        ></textarea>
+      </div>
+      {error && <div className="error">{error}</div>}
+      <button type="submit" className="button-submit">Save Changes</button>
     </form>
   );
 };

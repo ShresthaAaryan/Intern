@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import AddRental from './AddRental/AddRental';
+import { useAuth } from './AuthContext';
 import './Home.css';
 
 interface Rental {
@@ -41,15 +42,23 @@ const Home: React.FC = () => {
     };
   
     fetchRentals();
-  }, []);   
+  }, []); 
 
   const handleEdit = (rentalId: string) => {
     navigate(`/edit-rental/${rentalId}`);
   };
 
+  const { logout } = useAuth();
+
+  const handleUserProfile = () => {
+      navigate("/user-profile");
+  };
+
   return (
     <div>
       <h1>Rentals</h1>
+      <button onClick={handleUserProfile}>Go to Profile</button>
+      <button onClick={logout}>Logout</button>
       {error && <div className="error">{error}</div>}
       <AddRental userId={userId || ''} />
       <div className="rental-list">
