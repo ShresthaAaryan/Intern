@@ -1,0 +1,22 @@
+.homepage {
+    padding: 20px;
+}
+
+.rental-list {
+    margin-top: 20px;
+}
+
+.rental-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.rental-item h2 {
+    margin: 0 0 10px 0;
+}
+
+.error {
+    color: red;
+    margin-top: 20px;
+}
