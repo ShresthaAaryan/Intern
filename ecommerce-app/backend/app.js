@@ -30,8 +30,8 @@ mongoose.connect("mongodb://localhost:27017/ecommerce")
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'shresthaaaryan123@gmail.com',
-    pass: 'bepj hktf ivft rbld',
+    user: '', //your email
+    pass: '',  //your pass key
   },
 });
 
