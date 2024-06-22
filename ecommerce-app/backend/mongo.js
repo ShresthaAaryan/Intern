@@ -11,7 +11,8 @@ mongoose.connect("mongodb://localhost:27017/ecommerce")
 const newSchema = new mongoose.Schema({
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
