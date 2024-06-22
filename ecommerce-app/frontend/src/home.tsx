@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import AddRental from './AddRental/AddRental';
 import { useAuth } from './AuthContext';
 import './Home.css';
+import { Button } from './stories/Button';
+import "./App.css"
 
 interface Rental {
   _id: string;
@@ -61,8 +63,20 @@ const Home: React.FC = () => {
   return (
     <div>
       <h1>Rentals</h1>
-      <button onClick={handleUserProfile}>Go to Profile</button>
-      <button onClick={logout}>Logout</button>
+      <div className="inputform">
+        <Button
+          label="Go to Profile"
+          primary
+          className="button-submit"
+          onClick={handleUserProfile}
+        />
+        <Button
+          label="LogOut"
+          primary
+          className="button-submit"
+          onClick={logout}
+      />
+      </div>
       {error && <div className="error">{error}</div>}
       <AddRental userId={userId || ''} />
       <div className="rental-list">

@@ -58,6 +58,7 @@ const AddRental: React.FC<AddRentalProps> = ({ userId }) => {
 
   return (
     <form className="form" onSubmit={handleSubmit}>
+      <h1>Add Rentals</h1>
       <div className="flex-column">
         <label>Name</label>
 

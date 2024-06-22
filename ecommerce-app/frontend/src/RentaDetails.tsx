@@ -90,8 +90,18 @@ const RentalDetails: React.FC = () => {
           <p>Availability: {rental.availability ? 'Available' : 'Not Available'}</p>
           <p>Price: ${rental.price}</p>
           <p>Description: {rental.description}</p>
-          <button onClick={handleUserProfile}>Go to Profile</button>
-          <button onClick={logout}>Logout</button>
+          <Button
+            label="Go to Profile"
+            primary
+            className="button-submit"
+            onClick={handleUserProfile}
+          />
+          <Button
+            label="Logout"
+            primary
+            className="button-submit"
+            onClick={logout}
+          />
           <div>
           <form className="form" onSubmit={handleBooking}>
                             <div className="flex-column">
@@ -156,49 +166,47 @@ const RentalDetails: React.FC = () => {
                             <div className="flex-column">
                                 <label>Date of Birth</label>
                             </div>
+                            <div className="inputForm">
                                 <input 
-                                    placeholder="Enter your Date of Birth" 
-                                    className="input" 
+                                    placeholder="Enter your Date of Birth"  
                                     type="date" 
                                     name="dateOfBirth" 
                                     required 
                                     value={dateOfBirth}
                                     onChange={(e)=>{setDateOfBirth(e.target.value)}}
                                 />
+                            </div>
                             <div className="flex-column">
                                 <label>From</label>
                             </div>
+                            <div className="inputForm">
                                 <input 
                                     placeholder="From Date" 
-                                    className="input" 
                                     type="date" 
                                     name="fromDate" 
                                     required 
                                     value={fromDate}
                                     onChange={(e)=>{setFromDate(e.target.value)}}
                                 />
+                            </div>
                             <div className="flex-column">
                                 <label>To</label>
                             </div>
+                            <div className="inputForm">
                                 <input 
                                     placeholder="To Date" 
-                                    className="input" 
                                     type="date" 
                                     name="toDate" 
                                     required 
                                     value={toDate}
                                     onChange={(e)=>{setToDate(e.target.value)}}
                                 />
+                            </div>
                             {error && <div className="error">{error}</div>}
                             <Button
                                 label="Book"
                                 primary
                                 className="button-submit"
-                            />
-                            <Button
-                                label="Go to Profile"
-                                className="button-profile"
-                                onClick={handleUserProfile}
                             />
                         </form>
           </div>
