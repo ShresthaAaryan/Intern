@@ -6,10 +6,18 @@ const jwt = require("jsonwebtoken");
 const authenticateJWT = require('./authMiddleware');
 const collection = require("./mongo");
 const Rental = require("./Rental");
+const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
 
 const app = express();
 const PORT = 8000;
 const JWT_SECRET = process.env.JWT_SECRET;
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 mongoose.connect("mongodb://localhost:27017/ecommerce")
     .then(() => {
@@ -19,9 +27,14 @@ mongoose.connect("mongodb://localhost:27017/ecommerce")
         console.log(err);
     });
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'shresthaaaryan123@gmail.com',
+    pass: 'bepj hktf ivft rbld',
+  },
+});
+
 
 app.get("/", (req, res) => {
     res.send("Server is running");
@@ -46,25 +59,28 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// Signup Route
 app.post("/signup", async (req, res) => {
-     const { email, password } = req.body;
+  const { email, password, name, address, age, phoneNumber, dateOfBirth } = req.body;
 
-    try {
-        const userExists = await collection.findOne({ email });
+  try {
+      const userExists = await collection.findOne({ email });
 
-        if (userExists) {
-            res.status(409).json("User already exists");
-        } else {
-            const newUser = new collection({ email, password });
-            await newUser.save();
-            res.json("User registered successfully");
-        }
-    } catch (e) {
-        console.error("Error during signup:", e);
-        res.status(500).json("Internal server error");
-    }
+      if (userExists) {
+          res.status(409).json("User already exists");
+      } else {
+          const newUser = new collection({ email, password, name, address, age, phoneNumber, dateOfBirth });
+          await newUser.save();
+          res.json("User registered successfully");
+      }
+  } catch (e) {
+      console.error("Error during signup:", e);
+      res.status(500).json("Internal server error");
+  }
 });
 
+
+//Rental listing
 app.get("/rentals", authenticateJWT, async (req, res) => {
     try {
         const rentals = await Rental.find();
@@ -75,6 +91,8 @@ app.get("/rentals", authenticateJWT, async (req, res) => {
     }
 });
 
+
+//Adding Rentals
 app.post("/add-rental", authenticateJWT, async (req, res) => {
     const { name, type, address, availability, price, description } = req.body;
 
@@ -89,6 +107,9 @@ app.post("/add-rental", authenticateJWT, async (req, res) => {
         res.status(500).json("Internal server error");
     }
 });
+
+
+
 app.get('/rentals/:id', authenticateJWT, async (req, res) => {
     try {
       const rental = await Rental.findById(req.params.id);
@@ -132,7 +153,7 @@ app.get('/rentals/:id', authenticateJWT, async (req, res) => {
     }
   });
 
-
+//User Profile
   app.get("/user/:userId", authenticateJWT, async (req, res) => {
     const userId = req.params.userId;
 
@@ -150,6 +171,8 @@ app.get('/rentals/:id', authenticateJWT, async (req, res) => {
     }
 });
 
+
+//Update UserProfile
 app.put("/user/:userId", authenticateJWT, async (req, res) => {
     const userId = req.params.userId;
     const { email, password } = req.body;
@@ -172,7 +195,52 @@ app.put("/user/:userId", authenticateJWT, async (req, res) => {
     }
 });
 
-  // Start server
+
+// Booking a rental
+app.post('/rentals/:id/book', authenticateJWT, async (req, res) => {
+    const rentalId = req.params.id;
+    
+    const { name, address, age, phoneNumber, dateOfBirth, email, fromDate, toDate } = req.body;
+  
+    try {
+        const rental = await Rental.findById(rentalId);
+        if (!rental) {
+            return res.status(404).send('Rental not found');
+        }
+  
+        // Send booking confirmation email
+        const mailOptions = {
+            from: email,
+            to: 'shresthaaaryan123@gmail.com',
+            subject: 'Booking Confirmation',
+            text: `Booking Details:
+                   Rental Name: ${rental.name}
+                   Name: ${name}
+                   Address: ${address}
+                   Age: ${age}
+                   Phone Number: ${phoneNumber}
+                   Date of Birth: ${dateOfBirth}
+                   Email: ${email}
+                   Booking Dates: ${fromDate} to ${toDate}`,
+        };
+  
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending email:', error);
+                res.status(500).send('Internal server error');
+            } else {
+                console.log('Email sent successfully:', info.response);
+                res.status(200).send('Booking confirmed and email sent successfully');
+            }
+        });
+    } catch (error) {
+        console.error('Error booking rental:', error);
+        res.status(500).json('Internal server error');
+    }
+  });
+
+
+// Start server
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });

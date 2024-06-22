@@ -8,7 +8,7 @@ import Home from './home';
 import AddRental from './AddRental/AddRental';
 import EditRental from './EditRental';
 import UserProfile from './UserProfile';
-
+import RentalDetails from './RentaDetails';
 import { AuthProvider } from './AuthContext';
 
 function App() {
@@ -23,6 +23,7 @@ function App() {
           <Route path="/add-rental" element={<AddRental />} />
           <Route path="/edit-rental/:id" element={<EditRental />} />
           <Route path="/user-profile" element={<UserProfile />} />
+          <Route path="/rentals/:id" element={<RentalDetails />} />
         </Routes>
       </AuthProvider>
     </Router>

@@ -8,6 +8,11 @@ const Signup: React.FC = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [name, setName] = useState("");
+    const [address, setAddress] = useState("");
+    const [age, setAge] = useState<number | string>("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState("");
     const [error, setError] = useState("");
 
     const handleSignInNavigation = () => {
@@ -21,9 +26,21 @@ const Signup: React.FC = () => {
             const response = await axios.post("http://localhost:8000/signup", {
                 email,
                 password,
+                name,
+                address,
+                age,
+                phoneNumber,
+                dateOfBirth,
             });
             
             if (response.data === "User registered successfully") {
+                setEmail("");
+                setPassword("");
+                setName("");
+                setAddress("");
+                setAge("");
+                setPhoneNumber("");
+                setDateOfBirth("");
                 navigate("/login");
             } else {
                 setError(response.data);
@@ -37,7 +54,7 @@ const Signup: React.FC = () => {
     return (
         <form className="form" onSubmit={submit}>
             <div className="flex-column">
-                <label>Email </label>
+                <label>Email</label>
             </div>
             <div className="inputForm">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 32 32" height="20">
@@ -51,11 +68,12 @@ const Signup: React.FC = () => {
                     type="email" 
                     name="email" 
                     required 
+                    value={email}
                     onChange={(e)=>{setEmail(e.target.value)}}
                 />
             </div>
             <div className="flex-column">
-                <label>Password </label>
+                <label>Password</label>
             </div>
             <div className="inputForm">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="-64 0 512 512" height="20">
@@ -68,7 +86,78 @@ const Signup: React.FC = () => {
                     type="password" 
                     name="password" 
                     required 
+                    value={password}
                     onChange={(e)=>{setPassword(e.target.value)}}
+                />
+            </div>
+            <div className="flex-column">
+                <label>Name</label>
+            </div>
+            <div className="inputForm">
+                <input 
+                    placeholder="Enter your Name" 
+                    className="input" 
+                    type="text" 
+                    name="name" 
+                    required 
+                    value={name}
+                    onChange={(e)=>{setName(e.target.value)}}
+                />
+            </div>
+            <div className="flex-column">
+                <label>Address</label>
+            </div>
+            <div className="inputForm">
+                <input 
+                    placeholder="Enter your Address" 
+                    className="input" 
+                    type="text" 
+                    name="address" 
+                    required 
+                    value={address}
+                    onChange={(e)=>{setAddress(e.target.value)}}
+                />
+            </div>
+            <div className="flex-column">
+                <label>Age</label>
+            </div>
+            <div className="inputForm">
+                <input 
+                    placeholder="Enter your Age" 
+                    className="input" 
+                    type="number" 
+                    name="age" 
+                    required 
+                    value={age}
+                    onChange={(e)=>{setAge(e.target.value)}}
+                />
+            </div>
+            <div className="flex-column">
+                <label>Phone Number</label>
+            </div>
+            <div className="inputForm">
+                <input 
+                    placeholder="Enter your Phone Number" 
+                    className="input" 
+                    type="text" 
+                    name="phoneNumber" 
+                    required 
+                    value={phoneNumber}
+                    onChange={(e)=>{setPhoneNumber(e.target.value)}}
+                />
+            </div>
+            <div className="flex-column">
+                <label>Date of Birth</label>
+            </div>
+            <div className="inputForm">
+                <input 
+                    placeholder="Enter your Date of Birth" 
+                    className="input" 
+                    type="date" 
+                    name="dateOfBirth" 
+                    required 
+                    value={dateOfBirth}
+                    onChange={(e)=>{setDateOfBirth(e.target.value)}}
                 />
             </div>
             {error && <div className="error">{error}</div>}

@@ -48,6 +48,10 @@ const Home: React.FC = () => {
     navigate(`/edit-rental/${rentalId}`);
   };
 
+  const handleCardClick = (rentalId: string) => {
+    navigate(`/rentals/${rentalId}`);
+  };
+
   const { logout } = useAuth();
 
   const handleUserProfile = () => {
@@ -63,7 +67,7 @@ const Home: React.FC = () => {
       <AddRental userId={userId || ''} />
       <div className="rental-list">
         {rentals.map((rental) => (
-          <div className="rental-card" key={rental._id}>
+          <div className="rental-card" key={rental._id} onClick={() => handleCardClick(rental._id)}>
             <h2>{rental.name}</h2>
             <p>Type: {rental.type}</p>
             <p>Address: {rental.address}</p>

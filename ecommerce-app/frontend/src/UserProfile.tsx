@@ -6,11 +6,24 @@ import './App.css';
 interface User {
     email: string;
     password: string;
+    name: string;
+    address: string;
+    age: number | string;
+    phoneNumber: string;
+    dateOfBirth: string;
 }
 
 const UserProfile: React.FC = () => {
     const { token, userId, logout } = useAuth();
-    const [user, setUser] = useState<User>({ email: '', password: '' });
+    const [user, setUser] = useState<User>({
+        email: '',
+        password: '',
+        name: '',
+        address: '',
+        age: '',
+        phoneNumber: '',
+        dateOfBirth: '',
+    });
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
@@ -80,6 +93,61 @@ const UserProfile: React.FC = () => {
                         type="password"
                         name="password"
                         value={user.password}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="flex-column">
+                    <label>Name</label>
+                    <input
+                        className="input"
+                        type="text"
+                        name="name"
+                        value={user.name}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="flex-column">
+                    <label>Address</label>
+                    <input
+                        className="input"
+                        type="text"
+                        name="address"
+                        value={user.address}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="flex-column">
+                    <label>Age</label>
+                    <input
+                        className="input"
+                        type="number"
+                        name="age"
+                        value={user.age}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="flex-column">
+                    <label>Phone Number</label>
+                    <input
+                        className="input"
+                        type="text"
+                        name="phoneNumber"
+                        value={user.phoneNumber}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="flex-column">
+                    <label>Date of Birth</label>
+                    <input
+                        className="input"
+                        type="date"
+                        name="dateOfBirth"
+                        value={user.dateOfBirth}
                         onChange={handleChange}
                         required
                     />
