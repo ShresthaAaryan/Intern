@@ -22,8 +22,7 @@ const AuthContext = createContext<AuthContextType>({
 export const useAuth = () => useContext(AuthContext);
 
 interface AuthProviderProps {
-  children: React.ReactNode; // Define children prop type here
-}
+  children: React.ReactNode; 
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
@@ -33,7 +32,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (username: string, password: string) => {
     try {
       // Perform login logic here
-      // Assuming you're setting token and userId in localStorage and state
       navigate('/home');
     } catch (error) {
       console.error('Login error:', error);
@@ -50,7 +48,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ token, userId, login, logout, isAuthenticated }}>
-      {children} {/* Render children here */}
+      {children}
     </AuthContext.Provider>
   );
 };
