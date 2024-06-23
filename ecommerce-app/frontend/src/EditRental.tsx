@@ -84,7 +84,6 @@ const EditRental: React.FC = () => {
   };
 
   if (!userId || rental.owner !== userId) {
-    // Redirect if not authorized to edit
     navigate('/home');
     return null;
   }
