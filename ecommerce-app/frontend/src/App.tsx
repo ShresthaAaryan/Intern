@@ -14,7 +14,7 @@ import { AuthProvider } from './AuthContext';
 function App() {
   return (
     <Router>
-      <AuthProvider> {/* AuthProvider should be nested within Router */}
+      <AuthProvider>
         <Routes>
           <Route path="/" element={<Navigate replace to="/login" />} />
           <Route path="/login" element={<Login />} />
