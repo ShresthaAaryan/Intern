@@ -5,7 +5,7 @@ import { Button } from "../stories/Button";
 import "../App.css";
 
 interface AddRentalProps {
-  userId?: string; // Make userId optional
+  userId?: string; 
 }
 const AddRental: React.FC<AddRentalProps> = ({ userId }) => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const AddRental: React.FC<AddRentalProps> = ({ userId }) => {
     availability: false,
     price: 0,
     description: "",
-    owner: userId?.toString() || "", // Use optional chaining and default to empty string
+    owner: userId?.toString() || "", 
   });
   const [error, setError] = useState("");
 
