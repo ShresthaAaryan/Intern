@@ -109,7 +109,7 @@ app.post("/add-rental", authenticateJWT, async (req, res) => {
 });
 
 
-
+//Rentals 
 app.get('/rentals/:id', authenticateJWT, async (req, res) => {
     try {
       const rental = await Rental.findById(req.params.id);
