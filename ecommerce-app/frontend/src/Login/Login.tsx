@@ -23,19 +23,19 @@ const Login: React.FC = () => {
                 password,
             });
 
-            console.log('Response from server:', response.data); // Debugging log
+            console.log('Response from server:', response.data);
 
             if (response.data.token && response.data.userId) {
                 localStorage.setItem("token", response.data.token);
                 localStorage.setItem("userId", response.data.userId);
-                console.log('Token and userId stored in localStorage'); // Debugging log
+                console.log('Token and userId stored in localStorage'); 
                 navigate("/home");
             } else {
                 setError("Invalid email or password");
-                console.log('Invalid email or password'); // Debugging log
+                console.log('Invalid email or password');
             }
         } catch (error) {
-            console.error('Error during login:', error); // Debugging log
+            console.error('Error during login:', error);
             setError("An error occurred during login. Please try again.");
         }
     };
